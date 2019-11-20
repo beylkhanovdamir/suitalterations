@@ -1,8 +1,12 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SuitAlterations.Core.Services;
+using SuitAlterations.ServiceBusTopic;
+using SuitAlterations.ServiceBusTopic.Notifications;
 
 namespace SuitAlterations {
 	public class Startup {
@@ -17,6 +21,12 @@ namespace SuitAlterations {
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
+
+			services.AddMediatR(typeof(Startup));
+
+			services.AddSingleton<ISuitAlterationTopicSubscription, SuitAlterationTopicSubscription>();
+			services.AddTransient<ISuitAlterationsService, SuitAlterationsService>();
+			services.AddTransient<ISuitAlterationNotificationService, SuitAlterationNotificationService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +48,9 @@ namespace SuitAlterations {
 				endpoints.MapBlazorHub();
 				endpoints.MapFallbackToPage("/_Host");
 			});
+
+			var topicSubscription = app.ApplicationServices.GetService<ISuitAlterationTopicSubscription>();
+			topicSubscription.RegisterMessageReceivingHandler();
 		}
 	}
 }
