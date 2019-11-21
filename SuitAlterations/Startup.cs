@@ -1,9 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SuitAlterations.Core.Data;
 using SuitAlterations.Core.Services;
 using SuitAlterations.ServiceBusTopic;
 using SuitAlterations.ServiceBusTopic.Notifications;
@@ -23,7 +25,11 @@ namespace SuitAlterations {
 			services.AddServerSideBlazor();
 
 			services.AddMediatR(typeof(Startup));
-
+			
+			services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(Configuration["Database:ConnectionString"]));
+			services.AddScoped<ISuitAlterationRepository, SuitAlterationRepository>();
+			services.AddScoped<CustomerRepository>();
+			
 			services.AddSingleton<ISuitAlterationTopicSubscription, SuitAlterationTopicSubscription>();
 			services.AddTransient<ISuitAlterationsService, SuitAlterationsService>();
 			services.AddTransient<ISuitAlterationNotificationService, SuitAlterationNotificationService>();
