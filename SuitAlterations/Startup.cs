@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using SuitAlterations.Core.Data;
 using SuitAlterations.Core.Services;
 using SuitAlterations.ServiceBusTopic;
@@ -31,6 +32,9 @@ namespace SuitAlterations {
 			services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(Configuration["Database:ConnectionString"]));
 			services.AddScoped<ISuitAlterationRepository, SuitAlterationRepository>();
 			services.AddScoped<CustomerRepository>();
+			
+			services.Configure<AzureServiceBusConfiguration>(Configuration.GetSection("AzureServiceBus"));
+			services.AddSingleton(sp => sp.GetRequiredService<IOptions<AzureServiceBusConfiguration>>().Value);
 			
 			services.AddSingleton<ISuitAlterationTopicSubscription, SuitAlterationTopicSubscription>();
 			services.AddTransient<ISuitAlterationsService, SuitAlterationsService>();

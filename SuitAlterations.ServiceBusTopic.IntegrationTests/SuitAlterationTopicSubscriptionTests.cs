@@ -18,6 +18,7 @@ namespace SuitAlterations.ServiceBusTopic.IntegrationTests {
 		private Mock<ISuitAlterationNotificationService> _suitAlterationsNotificationServiceMock;
 
 		private readonly PaidSuitAlteration _paidSuitAlteration = new PaidSuitAlteration { AlterationId = 100 };
+		private AzureServiceBusConfiguration _azureServiceBusConfiguration;
 
 		[OneTimeSetUp]
 		public void SetUp() {
@@ -30,11 +31,10 @@ namespace SuitAlterations.ServiceBusTopic.IntegrationTests {
 
 			_configuration = builder.Build();
 
-			var azureServiceBusConfiguration =
-				_configuration.GetSection("AzureServiceBus").Get<AzureServiceBusConfiguration>();
+			_azureServiceBusConfiguration = _configuration.GetSection("AzureServiceBus").Get<AzureServiceBusConfiguration>();
 
-			_topicClient = new TopicClient(azureServiceBusConfiguration.ConnectionString,
-			                               azureServiceBusConfiguration.Topic.Path);
+			_topicClient = new TopicClient(_azureServiceBusConfiguration.ConnectionString,
+			                               _azureServiceBusConfiguration.Topic.Path);
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace SuitAlterations.ServiceBusTopic.IntegrationTests {
 		public async Task ReceivesMessageFromAzureTopicSubscriptionWhenSuitAlterationWasPaid() {
 			await SendPaidSuitAlterationMessageToAzureTopic();
 
-			var topicSubscription = new SuitAlterationTopicSubscription(_suitAlterationsNotificationServiceMock.Object);
+			var topicSubscription = new SuitAlterationTopicSubscription(_suitAlterationsNotificationServiceMock.Object, _azureServiceBusConfiguration);
 			PaidSuitAlteration expectedAlteration = null;
 			_suitAlterationsNotificationServiceMock.Setup(x => x.Publish(It.IsAny<PaidSuitAlteration>(), It.IsAny<CancellationToken>()))
 			                                       .Callback((PaidSuitAlteration result, CancellationToken token) => { expectedAlteration = result; });

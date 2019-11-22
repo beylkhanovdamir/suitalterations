@@ -22,4 +22,10 @@
 	  <ProjectReference Include="..\SuitAlterations.ServiceBusTopic\SuitAlterations.ServiceBusTopic.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="appsettings.servicebus.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

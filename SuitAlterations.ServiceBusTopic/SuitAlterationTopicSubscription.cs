@@ -2,7 +2,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SuitAlterations.ServiceBusTopic.Notifications;
 
@@ -11,14 +10,8 @@ namespace SuitAlterations.ServiceBusTopic {
 		private readonly ISuitAlterationNotificationService _suitAlterationNotificationService;
 		public readonly ISubscriptionClient SubscriptionClient;
 
-		public SuitAlterationTopicSubscription(ISuitAlterationNotificationService suitAlterationNotificationService) {
+		public SuitAlterationTopicSubscription(ISuitAlterationNotificationService suitAlterationNotificationService, AzureServiceBusConfiguration azureServiceBusConfiguration) {
 			_suitAlterationNotificationService = suitAlterationNotificationService;
-
-			IConfiguration configuration = new ConfigurationBuilder()
-			                               .AddJsonFile("appsettings.servicebus.json", true, true)
-			                               .Build();
-			var azureServiceBusConfiguration =
-				configuration.GetSection("AzureServiceBus").Get<AzureServiceBusConfiguration>();
 
 			SubscriptionClient = new SubscriptionClient(
 				azureServiceBusConfiguration.ConnectionString,
