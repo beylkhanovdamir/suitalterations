@@ -14,7 +14,7 @@
 	<div class="row justify-content-center">
 		<div class="col-md-6 col-sm-6 col-lg-6">
 			<label for="customers">Customers:</label>
-			<select id="customers" class="form-control" @onchange="@GetAlterationsByCustomer">
+			<select id="customers" class="form-control" @onchange="@CustomerChangeEventHandler">
 				<option value="0" selected>Select customer...</option>
 				@foreach (CustomerDto customer in _customers)
 				{
@@ -26,10 +26,10 @@
 
 	@if (_selectedCustomerId > 0)
 	{
-		<div class="row justify-content-center mt-1">
+		<div class="row justify-content-center mt-3">
 			<div class="col-md-6 col-sm-6 col-lg-6">
-				<label for="alterations">Alterations:</label>
-				<select id="alterations" class="form-control" @onchange="@GetSuitAlteration">
+				<label for="alterations">Alterations:</label> <a href="#" class="btn btn-primary btn-sm float-right" @onclick="@ShowFormToAddNewAlteration">Add new</a>
+				<select id="alterations" class="form-control" @onchange="@SuitAlterationChangeEventHandler">
 					<option value="0" selected>Select alteration...</option>
 					@foreach (SuitAlterationDto alteration in _alterations)
 					{
@@ -37,24 +37,63 @@
 					}
 				</select>
 
-				@if (_selectedSuitAlteration != null)
+				@if (_selectedSuitAlteration != null && !_showNewAlterationForm)
 				{
 					<div class="card mt-3">
 						<div class="card-body">
 							<h5 class="card-title">Alteration details</h5>
+
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">Left Sleeve: @_selectedSuitAlteration.LeftSleeveLength cm</li>
+								<li class="list-group-item">Right Sleeve: @_selectedSuitAlteration.RightSleeveLength cm</li>
+								<li class="list-group-item">Left Trouser: @_selectedSuitAlteration.LeftTrouserLength cm</li>
+								<li class="list-group-item">Right Trouser: @_selectedSuitAlteration.RightTrouserLength cm</li>
+							</ul>
 						</div>
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item">Left Sleeve: @_selectedSuitAlteration.LeftSleeveLength cm</li>
-							<li class="list-group-item">Right Sleeve: @_selectedSuitAlteration.RightSleeveLength cm</li>
-							<li class="list-group-item">Left Trouser: @_selectedSuitAlteration.LeftTrouserLength cm</li>
-							<li class="list-group-item">Right Trouser: @_selectedSuitAlteration.RightTrouserLength cm</li>
-						</ul>
 					</div>
 				}
+				@if (_showNewAlterationForm)
+				{
+					<div class="card mt-3">
+						<div class="card-body">
+							<h5 class="card-title">Add New Alteration</h5>
+
+							<EditForm Model="_newAlteration" OnValidSubmit="@AddNewAlteration">
+								<DataAnnotationsValidator />
+
+								<div class="form-group">
+									<label for="leftSleeeve">Left Sleeve Length</label>
+									<InputNumber Id="leftSleeeve" Class="form-control" @bind-Value="_newAlteration.LeftSleeveLength" />
+									<ValidationMessage For="@(() => _newAlteration.LeftSleeveLength)" />
+								</div>
+								<div class="form-group">
+									<label for="rightSleeeve">Right Sleeve Length</label>
+									<InputNumber Id="rightSleeeve" Class="form-control" @bind-Value="_newAlteration.RightSleeveLength" />
+									<ValidationMessage For="@(() => _newAlteration.RightSleeveLength)" />
+								</div>
+								<div class="form-group">
+									<label for="leftTrouser">Left Trouser Length</label>
+									<InputNumber Id="leftTrouser" Class="form-control" @bind-Value="_newAlteration.LeftTrouserLength" />
+									<ValidationMessage For="@(() => _newAlteration.LeftTrouserLength)" />
+								</div>
+								<div class="form-group">
+									<label for="rightTrouser">Right Trouser Length</label>
+									<InputNumber Id="rightTrouser" Class="form-control" @bind-Value="_newAlteration.RightTrouserLength" />
+									<ValidationMessage For="@(() => _newAlteration.RightTrouserLength)" />
+								</div>
+								<button type="submit" class="btn btn-primary btn-sm">Submit</button>
+								<a href="#" class="btn btn-light btn-sm" @onclick="@(() => { _showNewAlterationForm = false; StateHasChanged(); })">Cancel</a>
+							</EditForm>
+						</div>
+					</div>
+				}
+
+
 			</div>
 
 		</div>
 	}
+
 </div>
 
 @code {
@@ -62,6 +101,8 @@
 	private IReadOnlyList<SuitAlterationDto> _alterations = new List<SuitAlterationDto>();
 	private int _selectedCustomerId;
 	private SuitAlterationDto _selectedSuitAlteration;
+	private bool _showNewAlterationForm;
+	private SuitAlterationDto _newAlteration;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -70,17 +111,40 @@
 		StateHasChanged();
 	}
 
-	private async Task GetAlterationsByCustomer(ChangeEventArgs e)
+	private void ShowFormToAddNewAlteration()
+	{
+		_showNewAlterationForm = true;
+		_newAlteration = new SuitAlterationDto();
+	}
+
+	private async Task AddNewAlteration()
+	{
+		var newAlteration = Mapper.Map<SuitAlteration>(_newAlteration);
+		newAlteration.CustomerId = _selectedCustomerId;
+
+		await SuitAlterationsService.CreateSuitAlteration(newAlteration);
+
+		_showNewAlterationForm = false;
+
+		await GetSuitAlterationsBy(_selectedCustomerId);
+		
+		StateHasChanged();
+	}
+
+	private async Task CustomerChangeEventHandler(ChangeEventArgs e)
 	{
 		_selectedCustomerId = Convert.ToInt32(e.Value);
-		if (_selectedCustomerId > 0)
-		{
-			IReadOnlyList<SuitAlteration> result = await SuitAlterationsService.GetSuitAlterationsBy(_selectedCustomerId);
-
-			_alterations = result.Select(Mapper.Map<SuitAlterationDto>).OrderBy(x => x.Status).ToList();
-
-			_selectedSuitAlteration = null;
+		if (_selectedCustomerId > 0) {
+			await GetSuitAlterationsBy(_selectedCustomerId);
 		}
+	}
+
+	private async Task GetSuitAlterationsBy(int selectedCustomerId) {
+		IReadOnlyList<SuitAlteration> result = await SuitAlterationsService.GetSuitAlterationsBy(selectedCustomerId);
+
+		_alterations = result.Select(Mapper.Map<SuitAlterationDto>).OrderBy(x => x.Status).ToList();
+
+		_selectedSuitAlteration = null;
 	}
 
 	private async Task LoadCustomers()
@@ -90,8 +154,8 @@
 		_customers = result.Select(Mapper.Map<CustomerDto>).ToList();
 	}
 
-	private void GetSuitAlteration(ChangeEventArgs e)
-	{
-		_selectedSuitAlteration = _alterations.Single(x => x.Id == Convert.ToInt32(e.Value));
+	private void SuitAlterationChangeEventHandler(ChangeEventArgs e) {
+		var alterationId = Convert.ToInt32(e.Value);
+		_selectedSuitAlteration = alterationId > 0 ? _alterations.Single(x => x.Id == alterationId) : null;
 	}
 }
