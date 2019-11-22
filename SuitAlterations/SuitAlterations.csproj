@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>e9e4ecf8-345b-42ef-a459-756068a0e21b</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <ApplicationInsightsResourceId>/subscriptions/c552c6ed-2ca3-4293-946c-50aa80644503/resourcegroups/suitalterations/providers/microsoft.insights/components/suitalterations</ApplicationInsightsResourceId>
