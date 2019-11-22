@@ -6,10 +6,10 @@ using SuitAlterations.Core.Entities;
 
 namespace SuitAlterations.Core.Services {
 	public class SuitAlterationsService : ISuitAlterationsService {
-		private readonly SuitAlterationRepository _suitAlterationRepository;
+		private readonly ISuitAlterationRepository _suitAlterationRepository;
 		private readonly CustomerRepository _customerRepository;
 
-		public SuitAlterationsService(SuitAlterationRepository suitAlterationRepository, CustomerRepository customerRepository) {
+		public SuitAlterationsService(ISuitAlterationRepository suitAlterationRepository, CustomerRepository customerRepository) {
 			_suitAlterationRepository = suitAlterationRepository;
 			_customerRepository = customerRepository;
 		}

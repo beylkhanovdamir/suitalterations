@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,8 +24,9 @@ namespace SuitAlterations {
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
-
+			
 			services.AddMediatR(typeof(Startup));
+			services.AddAutoMapper(typeof(Startup));
 			
 			services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(Configuration["Database:ConnectionString"]));
 			services.AddScoped<ISuitAlterationRepository, SuitAlterationRepository>();

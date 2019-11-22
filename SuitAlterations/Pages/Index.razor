@@ -1,9 +1,97 @@
 ﻿@page "/"
+@using AutoMapper
+@using SuitAlterations.Core.Entities
+@using SuitAlterations.Core.Services
+@using SuitAlterations.Dto
+@inject ISuitAlterationsService SuitAlterationsService
+@inject IMapper Mapper
 
 <div class="container">
-	<div class="row">
-		<div class="col-md-12 col-sm-12 col-lg-12">
-			<h1 class="mx-auto text-center"><span class="badge badge-warning">Suit Alterations</span></h1>
+	<div class="col-md-12 col-sm-12 col-lg-12">
+		<h1 class="mx-auto text-center"><span class="badge badge-warning">Suit Alterations</span></h1>
+	</div>
+
+	<div class="row justify-content-center">
+		<div class="col-md-6 col-sm-6 col-lg-6">
+			<label for="customers">Customers:</label>
+			<select id="customers" class="form-control" @onchange="@GetAlterationsByCustomer">
+				<option value="0" selected>Select customer...</option>
+				@foreach (CustomerDto customer in _customers)
+				{
+					<option value="@customer.Id">@customer.FullName</option>
+				}
+			</select>
 		</div>
 	</div>
+
+	@if (_selectedCustomerId > 0)
+	{
+		<div class="row justify-content-center mt-1">
+			<div class="col-md-6 col-sm-6 col-lg-6">
+				<label for="alterations">Alterations:</label>
+				<select id="alterations" class="form-control" @onchange="@GetSuitAlteration">
+					<option value="0" selected>Select alteration...</option>
+					@foreach (SuitAlterationDto alteration in _alterations)
+					{
+						<option value="@alteration.Id">@alteration.AlterationTitle</option>
+					}
+				</select>
+
+				@if (_selectedSuitAlteration != null)
+				{
+					<div class="card mt-3">
+						<div class="card-body">
+							<h5 class="card-title">Alteration details</h5>
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">Left Sleeve: @_selectedSuitAlteration.LeftSleeveLength cm</li>
+							<li class="list-group-item">Right Sleeve: @_selectedSuitAlteration.RightSleeveLength cm</li>
+							<li class="list-group-item">Left Trouser: @_selectedSuitAlteration.LeftTrouserLength cm</li>
+							<li class="list-group-item">Right Trouser: @_selectedSuitAlteration.RightTrouserLength cm</li>
+						</ul>
+					</div>
+				}
+			</div>
+
+		</div>
+	}
 </div>
+
+@code {
+	private IReadOnlyList<CustomerDto> _customers = new List<CustomerDto>();
+	private IReadOnlyList<SuitAlterationDto> _alterations = new List<SuitAlterationDto>();
+	private int _selectedCustomerId;
+	private SuitAlterationDto _selectedSuitAlteration;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await LoadCustomers();
+
+		StateHasChanged();
+	}
+
+	private async Task GetAlterationsByCustomer(ChangeEventArgs e)
+	{
+		_selectedCustomerId = Convert.ToInt32(e.Value);
+		if (_selectedCustomerId > 0)
+		{
+			IReadOnlyList<SuitAlteration> result = await SuitAlterationsService.GetSuitAlterationsBy(_selectedCustomerId);
+
+			_alterations = result.Select(Mapper.Map<SuitAlterationDto>).OrderBy(x => x.Status).ToList();
+
+			_selectedSuitAlteration = null;
+		}
+	}
+
+	private async Task LoadCustomers()
+	{
+		var result = await SuitAlterationsService.GetAllCustomers();
+
+		_customers = result.Select(Mapper.Map<CustomerDto>).ToList();
+	}
+
+	private void GetSuitAlteration(ChangeEventArgs e)
+	{
+		_selectedSuitAlteration = _alterations.Single(x => x.Id == Convert.ToInt32(e.Value));
+	}
+}
