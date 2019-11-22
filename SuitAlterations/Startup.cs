@@ -35,6 +35,7 @@ namespace SuitAlterations {
 			services.AddSingleton<ISuitAlterationTopicSubscription, SuitAlterationTopicSubscription>();
 			services.AddTransient<ISuitAlterationsService, SuitAlterationsService>();
 			services.AddTransient<ISuitAlterationNotificationService, SuitAlterationNotificationService>();
+			services.AddApplicationInsightsTelemetry();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

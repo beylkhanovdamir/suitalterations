@@ -4,12 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>e9e4ecf8-345b-42ef-a459-756068a0e21b</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <ApplicationInsightsResourceId>/subscriptions/c552c6ed-2ca3-4293-946c-50aa80644503/resourcegroups/suitalterations/providers/microsoft.insights/components/suitalterations</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
   </ItemGroup>
@@ -17,6 +19,10 @@
   <ItemGroup>
     <ProjectReference Include="..\SuitAlterations.Core\SuitAlterations.Core.csproj" />
     <ProjectReference Include="..\SuitAlterations.ServiceBusTopic\SuitAlterations.ServiceBusTopic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

@@ -41,8 +41,6 @@ namespace SuitAlterations.ServiceBusTopic {
 		}
 
 		private Task ExceptionReceivedHandler(ExceptionReceivedEventArgs arg) {
-			// todo: add internal logging + logging to Azure Insights
-			Console.WriteLine(arg);
 			return Task.CompletedTask;
 		}
 
