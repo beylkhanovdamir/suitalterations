@@ -15,6 +15,10 @@ namespace SuitAlterations.Core.Services {
 		}
 
 		public async Task<SuitAlteration> CreateSuitAlteration(SuitAlteration newAlteration) {
+			Customer customer = await _customerRepository.GetBy(newAlteration.CustomerId);
+			if (customer == null) {
+				throw new CustomerNotFoundException($"Customer with id={newAlteration.CustomerId} not found");
+			}
 			return await _suitAlterationRepository.Create(newAlteration);
 		}
 
