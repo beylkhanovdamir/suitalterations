@@ -14,6 +14,8 @@ Website allows to salesrep to enter alterations of the customer's suit and then 
 To build locally this web application you need to have installed Visual Studio Build Tools 2019 16.3 or later and the .NET Core 3.0+ SDK on your machine. 
 If you want to open this project in development purposes, then you need to install any of these IDE - Visual Studio 2019 (for Mac) / Jetbrains Rider.
 You can deploy this web app in docker, all you need is to have installed Docker v2.1+ 
+To process event messages from Azure Service Bus Topic, you need to have Azure Subscription with created Azure Service Bus resource to publish and receive messages.
+The Web App has two sections with the appsettings. The first one is ConnectionString to connect to your Database and the other one is AzureServiceBus with ConnectionString to the Service Bus namespace, and predefined Topic and Subscription names accordingly.
 
 ### Running web app on Docker
 
