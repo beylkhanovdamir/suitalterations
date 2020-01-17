@@ -18,14 +18,16 @@
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\SuitAlterations.ServiceBusTopic\SuitAlterations.ServiceBusTopic.csproj" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <None Update="appsettings.servicebus.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\SuitAlterations.ServiceBusTopic\SuitAlterations.ServiceBusTopic.csproj" />
 	</ItemGroup>
 
 </Project>

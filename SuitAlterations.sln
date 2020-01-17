@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29512.175
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations", "SuitAlterations\SuitAlterations.csproj", "{A1193485-D41C-45ED-BF4C-D23341115749}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations", "src\SuitAlterations\SuitAlterations.csproj", "{A1193485-D41C-45ED-BF4C-D23341115749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.ServiceBusTopic", "SuitAlterations.ServiceBusTopic\SuitAlterations.ServiceBusTopic.csproj", "{12F5FE68-C0E3-4F5A-9A8F-8A6DFBF58755}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.ServiceBusTopic", "src\SuitAlterations.ServiceBusTopic\SuitAlterations.ServiceBusTopic.csproj", "{12F5FE68-C0E3-4F5A-9A8F-8A6DFBF58755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.ServiceBusTopic.IntegrationTests", "SuitAlterations.ServiceBusTopic.IntegrationTests\SuitAlterations.ServiceBusTopic.IntegrationTests.csproj", "{12C5B864-C5EB-4E6E-BD1B-58345D1CDBCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.ServiceBusTopic.IntegrationTests", "tests\SuitAlterations.ServiceBusTopic.IntegrationTests\SuitAlterations.ServiceBusTopic.IntegrationTests.csproj", "{12C5B864-C5EB-4E6E-BD1B-58345D1CDBCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.Core", "SuitAlterations.Core\SuitAlterations.Core.csproj", "{AB6E65B3-CF1F-495F-9EE2-EB1BED38276D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.Core", "src\SuitAlterations.Core\SuitAlterations.Core.csproj", "{AB6E65B3-CF1F-495F-9EE2-EB1BED38276D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.Core.UnitTests", "SuitAlterations.Core.UnitTests\SuitAlterations.Core.UnitTests.csproj", "{DB3C764A-391C-4151-A587-7F10CB0ADA0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuitAlterations.Core.UnitTests", "tests\SuitAlterations.Core.UnitTests\SuitAlterations.Core.UnitTests.csproj", "{DB3C764A-391C-4151-A587-7F10CB0ADA0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{64659CB4-A162-4727-A167-3DC0D673B05F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EA98DD08-EE9D-450E-98D3-7F8290DDC0C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,5 +49,12 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2932F547-127D-4DA1-A27F-C73FB785341D}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AB6E65B3-CF1F-495F-9EE2-EB1BED38276D} = {64659CB4-A162-4727-A167-3DC0D673B05F}
+		{A1193485-D41C-45ED-BF4C-D23341115749} = {64659CB4-A162-4727-A167-3DC0D673B05F}
+		{12F5FE68-C0E3-4F5A-9A8F-8A6DFBF58755} = {64659CB4-A162-4727-A167-3DC0D673B05F}
+		{DB3C764A-391C-4151-A587-7F10CB0ADA0C} = {EA98DD08-EE9D-450E-98D3-7F8290DDC0C6}
+		{12C5B864-C5EB-4E6E-BD1B-58345D1CDBCD} = {EA98DD08-EE9D-450E-98D3-7F8290DDC0C6}
 	EndGlobalSection
 EndGlobal

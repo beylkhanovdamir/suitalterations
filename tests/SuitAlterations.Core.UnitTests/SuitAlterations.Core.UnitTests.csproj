@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SuitAlterations.Core\SuitAlterations.Core.csproj" />
+	  <ProjectReference Include="..\..\src\SuitAlterations.Core\SuitAlterations.Core.csproj" />
 	</ItemGroup>
 
 </Project>

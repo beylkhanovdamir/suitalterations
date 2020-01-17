@@ -10,9 +10,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
 WORKDIR /src
-COPY ["SuitAlterations/SuitAlterations.csproj", "SuitAlterations/"]
-COPY ["SuitAlterations.Core/SuitAlterations.Core.csproj", "SuitAlterations.Core/"]
-COPY ["SuitAlterations.ServiceBusTopic/SuitAlterations.ServiceBusTopic.csproj", "SuitAlterations.ServiceBusTopic/"]
+COPY ["src/SuitAlterations/SuitAlterations.csproj", "SuitAlterations/"]
+COPY ["src/SuitAlterations.Core/SuitAlterations.Core.csproj", "SuitAlterations.Core/"]
+COPY ["src/SuitAlterations.ServiceBusTopic/SuitAlterations.ServiceBusTopic.csproj", "SuitAlterations.ServiceBusTopic/"]
 RUN dotnet restore "SuitAlterations/SuitAlterations.csproj"
 COPY . .
 WORKDIR "/src/SuitAlterations"
