@@ -1,7 +1,7 @@
 using System;
 using SuitAlterations.Domain.SeedWork;
 
-namespace SuitAlterations.Domain.SuitAlterations
+namespace SuitAlterations.Domain.Customers.SuitAlterations
 {
 	public class SuitAlterationId : BaseValueIdType
 	{

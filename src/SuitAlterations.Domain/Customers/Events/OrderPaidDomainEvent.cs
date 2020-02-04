@@ -1,5 +1,5 @@
+using SuitAlterations.Domain.Customers.SuitAlterations;
 using SuitAlterations.Domain.SeedWork;
-using SuitAlterations.Domain.SuitAlterations;
 
 namespace SuitAlterations.Domain.Customers.Events
 {

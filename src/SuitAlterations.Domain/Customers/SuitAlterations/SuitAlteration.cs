@@ -1,9 +1,8 @@
 using System;
-using SuitAlterations.Domain.Customers;
 using SuitAlterations.Domain.Customers.Events;
 using SuitAlterations.Domain.SeedWork;
 
-namespace SuitAlterations.Domain.SuitAlterations
+namespace SuitAlterations.Domain.Customers.SuitAlterations
 {
 	public class SuitAlteration : Entity
 	{
@@ -24,15 +23,13 @@ namespace SuitAlterations.Domain.SuitAlterations
 			int leftSleeveLength,
 			int rightSleeveLength,
 			int leftTrouserLength,
-			int rightTrouserLength,
-			CustomerId customerId)
+			int rightTrouserLength)
 		{
 			Id = new SuitAlterationId(Guid.NewGuid());
 			LeftSleeveLength = leftSleeveLength;
 			RightSleeveLength = rightSleeveLength;
 			LeftTrouserLength = leftTrouserLength;
 			RightTrouserLength = rightTrouserLength;
-			CustomerId = customerId;
 
 			Status = SuitAlterationStatus.Created;
 
@@ -43,15 +40,13 @@ namespace SuitAlterations.Domain.SuitAlterations
 			int leftSleeveLength,
 			int rightSleeveLength,
 			int leftTrouserLength,
-			int rightTrouserLength,
-			CustomerId customerId)
+			int rightTrouserLength)
 		{
 			return new SuitAlteration(
 				leftSleeveLength,
 				rightSleeveLength,
 				leftTrouserLength,
-				rightTrouserLength,
-				customerId);
+				rightTrouserLength);
 		}
 
 		public void MarkOrderAsPaid()
