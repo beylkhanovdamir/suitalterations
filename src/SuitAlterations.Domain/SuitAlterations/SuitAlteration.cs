@@ -1,10 +1,14 @@
 using System;
+using SuitAlterations.Domain.Customers;
 using SuitAlterations.Domain.Customers.Events;
 using SuitAlterations.Domain.SeedWork;
 
-namespace SuitAlterations.Domain.Customers.SuitAlterations
+namespace SuitAlterations.Domain.SuitAlterations
 {
-	public class SuitAlteration : Entity
+	/// <summary>
+	/// Suit Alteration Aggregate root
+	/// </summary>
+	public class SuitAlteration : Entity, IAggregateRoot
 	{
 		public int LeftSleeveLength { get; }
 		public int RightSleeveLength { get; }

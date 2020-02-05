@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace SuitAlterations.Domain.Customers.SuitAlterations
+namespace SuitAlterations.Domain.SuitAlterations
 {
 	public enum SuitAlterationStatus
 	{

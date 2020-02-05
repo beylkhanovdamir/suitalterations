@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SuitAlterations.Domain.Customers.SuitAlterations;
 using SuitAlterations.Domain.SeedWork;
+using SuitAlterations.Domain.SuitAlterations;
 
 namespace SuitAlterations.Domain.Customers
 {
 	/// <summary>
-	///     Customer Aggregate
+	///     Customer Aggregate root
 	/// </summary>
 	public class Customer : Entity, IAggregateRoot
 	{
