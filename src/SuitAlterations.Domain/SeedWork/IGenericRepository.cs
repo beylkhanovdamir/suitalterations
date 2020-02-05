@@ -7,6 +7,5 @@ namespace SuitAlterations.Domain.SeedWork
 	{
 		Task<List<T>> GetAllAsync();
 		Task<T> GetByIdAsync<TId>(TId id);
-		Task AddAsync(T entity);
 	}
 }

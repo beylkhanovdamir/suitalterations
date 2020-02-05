@@ -23,7 +23,7 @@ namespace SuitAlterations.Application.Customers.GetAllCustomers
 			CancellationToken cancellationToken)
 		{
 			var customers = await _customerRepository.GetAllAsync();
-			return customers.Select(_mapper.Map<CustomerDto>).ToList();
+			return customers.Select(_mapper.Map<CustomerDto>).OrderBy(x => x.FullName).ToList();
 		}
 	}
 }

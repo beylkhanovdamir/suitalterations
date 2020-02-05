@@ -15,12 +15,11 @@ namespace SuitAlterations.Domain.Customers
 		public string FirstName { get; }
 		public string LastName { get; }
 
-		private readonly List<SuitAlteration> _suitAlterations;
-		public IEnumerable<SuitAlteration> SuitAlterations => _suitAlterations?.ToList();
+		private readonly List<SuitAlteration> _suitAlterations = new List<SuitAlteration>();
+		public IEnumerable<SuitAlteration> SuitAlterations => _suitAlterations.ToList();
 
 		private Customer()
 		{
-			_suitAlterations = new List<SuitAlteration>();
 		}
 
 		public Customer(string firstName, string lastName)

@@ -26,20 +26,10 @@ namespace SuitAlterations.Infrastructure.Domain
 			var entity = await _context.Set<TEntity>().FindAsync(id);
 			if (entity == null)
 			{
-				NotFound(id);
+				throw new EntityNotFoundException($"Entity with id={id} not found");
 			}
 
 			return entity;
-		}
-
-		public async Task AddAsync(TEntity entity)
-		{
-			await _context.Set<TEntity>().AddAsync(entity);
-		}
-
-		protected static void NotFound<TId>(TId id)
-		{
-			throw new EntityNotFoundException($"Entity with id={id} not found");
 		}
 	}
 }

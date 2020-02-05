@@ -128,7 +128,7 @@
             _newAlterationRequest.LeftTrouserLength,
             _newAlterationRequest.RightTrouserLength,
             _selectedCustomerId));
-        
+
         _showNewAlterationForm = false;
     }
 
@@ -136,6 +136,7 @@
     {
         _selectedCustomerId = ParseGuid(e.Value);
         _alterations = await Mediator.Send(new GetCustomerSuitAlterationsQuery(_selectedCustomerId));
+        _selectedSuitAlteration = null;
     }
 
     private void SuitAlterationChangeEventHandler(ChangeEventArgs e)
@@ -153,4 +154,5 @@
         _showNewAlterationForm = true;
         _newAlterationRequest = new PlaceOrderToSuitAlterationRequest();
     }
+
 }
