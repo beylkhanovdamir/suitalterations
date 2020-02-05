@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SuitAlterations": {
+    "SuitAlterations.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

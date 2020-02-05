@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MediatR;
 using SuitAlterations.Application.SuitAlterations;
@@ -9,9 +10,9 @@ namespace SuitAlterations.Application.Customers.GetCustomerSuitAlterations
 	{
 		public CustomerId CustomerId { get; }
 
-		public GetCustomerSuitAlterationsQuery(CustomerId customerId)
+		public GetCustomerSuitAlterationsQuery(Guid customerId)
 		{
-			CustomerId = customerId;
+			CustomerId = new CustomerId(customerId);
 		}
 	}
 }

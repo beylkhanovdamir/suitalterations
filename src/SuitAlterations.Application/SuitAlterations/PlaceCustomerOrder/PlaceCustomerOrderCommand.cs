@@ -1,3 +1,4 @@
+using System;
 using MediatR;
 using SuitAlterations.Domain.Customers;
 
@@ -20,13 +21,13 @@ namespace SuitAlterations.Application.SuitAlterations.PlaceCustomerOrder
 			int rightSleeveLength,
 			int leftTrouserLength,
 			int rightTrouserLength,
-			CustomerId customerId)
+			Guid customerId)
 		{
 			LeftSleeveLength = leftSleeveLength;
 			RightSleeveLength = rightSleeveLength;
 			LeftTrouserLength = leftTrouserLength;
 			RightTrouserLength = rightTrouserLength;
-			CustomerId = customerId;
+			CustomerId = new CustomerId(customerId);
 		}
 	}
 }

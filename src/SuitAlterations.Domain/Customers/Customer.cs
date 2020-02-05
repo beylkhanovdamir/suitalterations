@@ -20,6 +20,7 @@ namespace SuitAlterations.Domain.Customers
 
 		private Customer()
 		{
+			_suitAlterations = new List<SuitAlteration>();
 		}
 
 		public Customer(string firstName, string lastName)
@@ -27,7 +28,6 @@ namespace SuitAlterations.Domain.Customers
 			Id = new CustomerId(Guid.NewGuid());
 			FirstName = firstName;
 			LastName = lastName;
-			_suitAlterations = new List<SuitAlteration>();
 		}
 
 		public static Customer CreateNew(string firstName, string lastName)
@@ -38,7 +38,7 @@ namespace SuitAlterations.Domain.Customers
 		public void PlaceOrder(int leftSleeveLength, int rightSleeveLength, int leftTrouserLength, int rightTrouserLength)
 		{
 			var order = SuitAlteration.CreateNew(leftSleeveLength, rightSleeveLength, leftTrouserLength, rightTrouserLength);
-			
+
 			_suitAlterations.Add(order);
 		}
 	}

@@ -1,0 +1,156 @@
+﻿@page "/"
+@using global::SuitAlterations.API.SuitAlterations
+@using global::SuitAlterations.Application.Customers
+@using global::SuitAlterations.Application.Customers.GetAllCustomers
+@using global::SuitAlterations.Application.Customers.GetCustomerSuitAlterations
+@using global::SuitAlterations.Application.SuitAlterations
+@using global::SuitAlterations.Application.SuitAlterations.PlaceCustomerOrder
+@using MediatR
+@inject IMediator Mediator;
+
+
+<div class="container">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        <h1 class="mx-auto text-center">
+            <span class="badge badge-warning">Suit Alterations</span>
+        </h1>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            <label for="customers">Customers:</label>
+            <select id="customers" class="form-control" @onchange="@CustomerChangeEventHandler">
+                <option value="0" selected>Select customer...</option>
+                @foreach (CustomerDto customer in _customers)
+                {
+                    <option value="@customer.Id">@customer.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @if (_selectedCustomerId != Guid.Empty)
+    {
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6 col-sm-6 col-lg-6">
+                <label for="alterations">Alterations:</label> <a href="#" class="btn btn-primary btn-sm float-right" @onclick="@ShowFormToAddNewAlteration">Add new</a>
+                <select id="alterations" class="form-control" @onchange="@SuitAlterationChangeEventHandler">
+                    <option value="0" selected>Select alteration...</option>
+                    @foreach (SuitAlterationDto alteration in _alterations)
+                    {
+                        <option value="@alteration.Id">@alteration.AlterationTitle</option>
+                    }
+                </select>
+
+                @if (_selectedSuitAlteration != null && !_showNewAlterationForm)
+                {
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Alteration details</h5>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Left Sleeve: @_selectedSuitAlteration.LeftSleeveLength cm</li>
+                                <li class="list-group-item">Right Sleeve: @_selectedSuitAlteration.RightSleeveLength cm</li>
+                                <li class="list-group-item">Left Trouser: @_selectedSuitAlteration.LeftTrouserLength cm</li>
+                                <li class="list-group-item">Right Trouser: @_selectedSuitAlteration.RightTrouserLength cm</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+                @if (_showNewAlterationForm)
+                {
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Add New Alteration (in cm)</h5>
+
+                            <EditForm Model="_newAlterationRequest" OnValidSubmit="@PlaceCustomerOrder">
+                                <DataAnnotationsValidator/>
+
+                                <div class="form-group">
+                                    <label for="leftSleeve">Left Sleeve Length</label>
+                                    <InputNumber Id="leftSleeve" Class="form-control" @bind-Value="_newAlterationRequest.LeftSleeveLength"/>
+                                    <ValidationMessage For="@(() => _newAlterationRequest.LeftSleeveLength)"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rightSleeve">Right Sleeve Length</label>
+                                    <InputNumber Id="rightSleeve" Class="form-control" @bind-Value="_newAlterationRequest.RightSleeveLength"/>
+                                    <ValidationMessage For="@(() => _newAlterationRequest.RightSleeveLength)"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="leftTrouser">Left Trouser Length</label>
+                                    <InputNumber Id="leftTrouser" Class="form-control" @bind-Value="_newAlterationRequest.LeftTrouserLength"/>
+                                    <ValidationMessage For="@(() => _newAlterationRequest.LeftTrouserLength)"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rightTrouser">Right Trouser Length</label>
+                                    <InputNumber Id="rightTrouser" Class="form-control" @bind-Value="_newAlterationRequest.RightTrouserLength"/>
+                                    <ValidationMessage For="@(() => _newAlterationRequest.RightTrouserLength)"/>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                <a href="#" class="btn btn-light btn-sm" @onclick="@(() =>
+                                                                                   {
+                                                                                       _showNewAlterationForm = false;
+                                                                                       StateHasChanged();
+                                                                                   })">
+                                    Cancel
+                                </a>
+                            </EditForm>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@code {
+    private IReadOnlyList<CustomerDto> _customers = new List<CustomerDto>();
+    private IReadOnlyList<SuitAlterationDto> _alterations = new List<SuitAlterationDto>();
+    private Guid _selectedCustomerId;
+    private SuitAlterationDto _selectedSuitAlteration;
+    private bool _showNewAlterationForm;
+    private PlaceOrderToSuitAlterationRequest _newAlterationRequest;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _customers = await Mediator.Send(new GetAllCustomersQuery());
+    }
+
+    private async Task PlaceCustomerOrder()
+    {
+        await Mediator.Send(new PlaceCustomerOrderCommand(
+            _newAlterationRequest.LeftSleeveLength,
+            _newAlterationRequest.RightSleeveLength,
+            _newAlterationRequest.LeftTrouserLength,
+            _newAlterationRequest.RightTrouserLength,
+            _selectedCustomerId));
+        
+        _showNewAlterationForm = false;
+    }
+
+    private async Task CustomerChangeEventHandler(ChangeEventArgs e)
+    {
+        _selectedCustomerId = ParseGuid(e.Value);
+        _alterations = await Mediator.Send(new GetCustomerSuitAlterationsQuery(_selectedCustomerId));
+    }
+
+    private void SuitAlterationChangeEventHandler(ChangeEventArgs e)
+    {
+        _selectedSuitAlteration = _alterations.Single(x => x.Id == ParseGuid(e.Value));
+    }
+
+    private Guid ParseGuid(Object o)
+    {
+        return Guid.Parse((string) o);
+    }
+
+    private void ShowFormToAddNewAlteration()
+    {
+        _showNewAlterationForm = true;
+        _newAlterationRequest = new PlaceOrderToSuitAlterationRequest();
+    }
+}

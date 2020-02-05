@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation;
 using MediatR;
 using MediatR.Pipeline;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using SuitAlterations.Application.Configuration;
 using SuitAlterations.Application.Configuration.Validation;
 using SuitAlterations.Application.SuitAlterations.PlaceCustomerOrder;
 using SuitAlterations.Domain.Customers;
@@ -25,6 +27,8 @@ namespace SuitAlterations.Infrastructure
 	{
 		public static void RegisterApplicationServices(this IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddAutoMapper(typeof(ApplicationMappingProfile));
+			services.AddMediatR(typeof(ApplicationMappingProfile));
 			services.AddDbContextPool<ApplicationDbContext>(opts =>
 				opts.UseSqlServer(configuration["Database:ConnectionString"]));
 

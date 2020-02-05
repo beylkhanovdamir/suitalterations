@@ -1,10 +1,10 @@
-using SuitAlterations.Domain.Customers;
+using System;
 
 namespace SuitAlterations.Application.Customers
 {
 	public class CustomerDto
 	{
-		public CustomerId Id { get; set; }
+		public Guid Id { get; set; }
 		public string FullName { get; set; }
 	}
 }

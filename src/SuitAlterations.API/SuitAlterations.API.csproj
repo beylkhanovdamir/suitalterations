@@ -8,17 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
+    <PackageReference Include="MediatR" Version="8.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SuitAlterations.Core\SuitAlterations.Core.csproj" />
-    <ProjectReference Include="..\SuitAlterations.ServiceBusTopic\SuitAlterations.ServiceBusTopic.csproj" />
+    <ProjectReference Include="..\SuitAlterations.Infrastructure\SuitAlterations.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
