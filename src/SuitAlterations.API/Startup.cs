@@ -1,3 +1,4 @@
+using Autofac;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SuitAlterations.Infrastructure;
+using SuitAlterations.Infrastructure.Database;
+using SuitAlterations.Infrastructure.Processing;
 
 namespace SuitAlterations.API
 {
@@ -16,7 +19,7 @@ namespace SuitAlterations.API
 		}
 
 		public IConfiguration Configuration { get; }
-
+		
 		// This method gets called by the runtime. Use this method to add services to the container.
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
@@ -26,8 +29,15 @@ namespace SuitAlterations.API
 			services.AddSingleton(Configuration);
 
 			services.AddMediatR(typeof(Startup));
-
+			
 			services.RegisterApplicationServices(Configuration);
+		}
+		
+		// This method configures Autofac modules and gets called by the runtime.
+		public void ConfigureContainer(ContainerBuilder builder)
+		{
+			builder.RegisterModule(new DataAccessModule());
+			builder.RegisterModule(new ProcessingModule());
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

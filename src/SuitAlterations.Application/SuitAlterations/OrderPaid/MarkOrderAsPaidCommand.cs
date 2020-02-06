@@ -3,11 +3,11 @@ using SuitAlterations.Domain.SuitAlterations;
 
 namespace SuitAlterations.Application.SuitAlterations.OrderPaid
 {
-	public class OrderPaidNotification : INotification
+	public class MarkOrderAsPaidCommand : IRequest
 	{
 		public SuitAlterationId SuitAlterationId { get; }
 
-		public OrderPaidNotification(SuitAlterationId suitAlterationId)
+		public MarkOrderAsPaidCommand(SuitAlterationId suitAlterationId)
 		{
 			SuitAlterationId = suitAlterationId;
 		}

@@ -4,7 +4,7 @@ using MediatR;
 using SuitAlterations.Domain.SeedWork;
 using SuitAlterations.Infrastructure.Database;
 
-namespace SuitAlterations.Infrastructure.Domain
+namespace SuitAlterations.Infrastructure.Processing
 {
 	public class DomainEventsDispatcher : IDomainEventsDispatcher
 	{
@@ -27,12 +27,14 @@ namespace SuitAlterations.Infrastructure.Domain
 				.SelectMany(x => x.Entity.DomainEvents)
 				.ToList();
 
+			// we need to clear entities events right here to avoid circular dependency and further SO by domain events dispatchers
+			domainEntities.ForEach(entity => entity.Entity.ClearDomainEvents());
+			
 			var tasks = domainEvents
 				.Select(async (domainEvent) => { await _mediator.Publish(domainEvent); });
 
 			await Task.WhenAll(tasks);
 
-			domainEntities.ForEach(entity => entity.Entity.ClearDomainEvents());
 		}
 	}
 }

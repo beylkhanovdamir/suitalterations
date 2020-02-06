@@ -24,10 +24,11 @@ namespace SuitAlterations.Infrastructure.Domain
 			try
 			{
 				_transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
-				await _dbContext.SaveChangesAsync(cancellationToken);
-				await _transaction.CommitAsync(cancellationToken);
 
 				await _domainEventsDispatcher.DispatchEventsAsync();
+				await _dbContext.SaveChangesAsync(cancellationToken);
+				
+				await _transaction.CommitAsync(cancellationToken);
 			}
 			catch (Exception)
 			{
