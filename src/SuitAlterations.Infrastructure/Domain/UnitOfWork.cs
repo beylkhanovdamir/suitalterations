@@ -25,23 +25,22 @@ namespace SuitAlterations.Infrastructure.Domain
 			{
 				_transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
 
-				await _domainEventsDispatcher.DispatchEventsAsync();
 				await _dbContext.SaveChangesAsync(cancellationToken);
-				
+
+				//committing before dispatching
 				await _transaction.CommitAsync(cancellationToken);
+
+				//we publish here events which are not requiring committing transaction in accordance with DDD best practice
+				await _domainEventsDispatcher.DispatchEventsAsync();
 			}
 			catch (Exception)
 			{
 				await RollbackAsync(cancellationToken);
 				throw;
 			}
-			finally
-			{
-				await _transaction.DisposeAsync();
-			}
 		}
 
-		public async Task RollbackAsync(CancellationToken cancellationToken = default)
+		private async Task RollbackAsync(CancellationToken cancellationToken = default)
 		{
 			if (_transaction != null)
 			{
