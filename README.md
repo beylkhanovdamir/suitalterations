@@ -16,6 +16,7 @@ Screenshot of SPA
 ## Getting Started (for developers)
 
 ### Prerequisites
+Physical project structure is organised in accordance with [MS .NET project structure](https://gist.github.com/davidfowl/ed7564297c61fe9ab814)
 
 To build locally this web application you need to have installed Visual Studio Build Tools 2019 16.3 or later and the .NET Core 3.0+ SDK on your machine. 
 If you want to open this project in development purposes, then you need to install any of these IDE - Visual Studio 2019 (for Mac) / Jetbrains Rider.
