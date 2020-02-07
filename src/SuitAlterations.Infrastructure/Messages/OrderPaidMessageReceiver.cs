@@ -45,7 +45,7 @@ namespace SuitAlterations.Infrastructure.Messages
 			{
 				Filter = new CorrelationFilter
 				{
-					Label = filter.Value
+					CorrelationId = filter.Value
 				}
 			});
 

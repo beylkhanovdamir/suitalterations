@@ -42,6 +42,7 @@ namespace SuitAlterations.Application.UnitTests
 			_mapperMock = new Mock<IMapper>();
 			_domainEventsDispatcherMock = new Mock<IDomainEventsDispatcher>();
 			_dbContext = DbContextBuilder.BuildDbContext();
+			// we will trigger UoW CommitAsync in tests every time as our command decorator dispatcher does under the hood
 			_unitOfWork = new UnitOfWork(_dbContext, _domainEventsDispatcherMock.Object);
 		}
 
@@ -66,12 +67,13 @@ namespace SuitAlterations.Application.UnitTests
 			customerOrders.Should().BeEmpty();
 
 			//Act
-			var placeCustomerOrderCommandHandler = new PlaceCustomerOrderCommandHandler(customerRepository, _unitOfWork);
+			var placeCustomerOrderCommandHandler = new PlaceCustomerOrderCommandHandler(customerRepository);
 			await placeCustomerOrderCommandHandler.Handle(new PlaceCustomerOrderCommand(5,
 				5,
 				5,
 				5,
 				customer.Id.Value), CancellationToken.None);
+			await _unitOfWork.CommitAsync(CancellationToken.None);
 
 			//Assert
 			customerOrders = await LoadCustomerOrders();
@@ -103,8 +105,9 @@ namespace SuitAlterations.Application.UnitTests
 			order.Status.Should().Be(SuitAlterationStatus.Created);
 
 			//Act
-			var orderPaidNotificationHandler = new OrderPaidNotificationHandler(suitAlterationRepository, _unitOfWork);
-			await orderPaidNotificationHandler.Handle(new OrderPaidNotification(order.Id), CancellationToken.None);
+			var markOrderAsPaidCommandHandler = new MarkOrderAsPaidCommandHandler(suitAlterationRepository);
+			await markOrderAsPaidCommandHandler.Handle(new MarkOrderAsPaidCommand(order.Id), CancellationToken.None);
+			await _unitOfWork.CommitAsync(CancellationToken.None);
 
 			//Assert
 			SuitAlteration paidOrder = await suitAlterationRepository.GetByIdAsync(order.Id);
@@ -128,12 +131,14 @@ namespace SuitAlterations.Application.UnitTests
 
 			//Act
 			var order = customer.SuitAlterations.Single();
-			var orderPaidNotificationHandler = new OrderPaidNotificationHandler(suitAlterationRepository, _unitOfWork);
-			await orderPaidNotificationHandler.Handle(new OrderPaidNotification(order.Id), CancellationToken.None);
+			var markOrderAsPaidCommandHandler = new MarkOrderAsPaidCommandHandler(suitAlterationRepository);
+			await markOrderAsPaidCommandHandler.Handle(new MarkOrderAsPaidCommand(order.Id), CancellationToken.None);
+			await _unitOfWork.CommitAsync(CancellationToken.None);
+
 			//Pre-assert
 			order.DomainEvents.Should().ContainEquivalentOf(new OrderPaidDomainEvent(order.Id));
 			//imagine that we got OrderPaidNotification second time
-			Func<Task> action = async () => await orderPaidNotificationHandler.Handle(new OrderPaidNotification(order.Id), CancellationToken.None);
+			Func<Task> action = async () => await markOrderAsPaidCommandHandler.Handle(new MarkOrderAsPaidCommand(order.Id), CancellationToken.None);
 
 			//Assert
 			action.Should().Throw<BusinessRuleValidationException>().WithMessage(
@@ -152,6 +157,7 @@ namespace SuitAlterations.Application.UnitTests
 			//Act
 			Func<Task> action = async () => await suitAlterationRepository.GetByIdAsync(orderId);
 
+			//Assert
 			action.Should().Throw<EntityNotFoundException>()
 				.WithMessage($"Entity with id={orderId} not found");
 		}
@@ -169,7 +175,6 @@ namespace SuitAlterations.Application.UnitTests
 
 			var anotherCustomer = await RegisterCustomer();
 			anotherCustomer.PlaceOrder(1, 1, 1, 1);
-
 			await _unitOfWork.CommitAsync(CancellationToken.None);
 
 			var expectedOrder = expectedCustomer.SuitAlterations.Single();
