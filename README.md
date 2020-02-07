@@ -4,7 +4,7 @@
 
 App architecture is designed in accordance with the Clean Architecture where we have the next layers, see below diagram:
 
-![diagram](https://imgur.com/Nho0ydw)
+![diagram](https://github.com/beylkhanovdamir/suitalterations/blob/master/app-architecture.png)
 
 Website allows to salesrep to enter alterations of the customer's suit and then check the status of the further work. After that when the customer paid the order to alteration, then the POS terminal should post the `OrderPaid` notification to Azure Service Bus Topic. Once our Azure Subscription service client will process this OrderPaid message, salesrep will see the changed status for this order to alteration by incoming notification of this event.
 
