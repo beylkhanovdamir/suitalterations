@@ -1,9 +1,15 @@
 # Suit Alterations 
 
-![Home page](https://i.imgur.com/cTRQp05.png)
+### ASP.NET Core Blazor App with CQRS implementation and DDD using Clean Architecture
 
-This Web App consists of SPA and the independent service client which is working on a background process and subscribed to the `OrderPaid` message which can be sent to the Azure Service Bus Topic and this service will able to process it. 
-Website allows to salesrep to enter alterations of the customer's suit and then check the status of the further work. After that when the customer paid the order to alteration, then the POS terminal should post the `OrderPaid` notification to Azure Service Bus Topic. Once our Azure Subscription service client will process this OrderPaid message, salesrep will see the changed status for this order to alteration.
+App architecture is designed in accordance with the Clean Architecture where we have the next layers, see below diagram:
+
+![diagram](https://imgur.com/Nho0ydw)
+
+Website allows to salesrep to enter alterations of the customer's suit and then check the status of the further work. After that when the customer paid the order to alteration, then the POS terminal should post the `OrderPaid` notification to Azure Service Bus Topic. Once our Azure Subscription service client will process this OrderPaid message, salesrep will see the changed status for this order to alteration by incoming notification of this event.
+
+Screenshot of SPA
+![Home page](https://i.imgur.com/cTRQp05.png)
 
 [Public Web App is available by this link](http://suitalterations.azurewebsites.net/)
 
@@ -30,6 +36,21 @@ Follow below instructions:
 ### Technologies & Frameworks
 * ASP.NET Core 3.0
 * Blazor with WebAssembly support
+* MediatR
+* FluentValidation
+* Autofac
+* FluentAssertions
 * EF Core & Code-First Approach
 * Azure SQL server
 * Azure Service Bus Topic and subscription
+
+### Patterns & Design Approaches
+* Domain Driven Design approach & The Dependency Rule
+* Clean Architecture (see ![details](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html))
+* CQRS (see ![details](https://martinfowler.com/bliki/CQRS.html))
+* Decorator (for the dispatching events)
+* Domain Event (see ![details](https://martinfowler.com/eaaDev/DomainEvent.html))
+* Aggregate (we have two clusters - Customer and SuitAlteration. See ![details](https://www.martinfowler.com/bliki/DDD_Aggregate.html))
+* Mediator (reduce dependencies between objects)
+* Unit of Work (see ![details](https://www.martinfowler.com/eaaCatalog/unitOfWork.html))
+* Shadow Properties (`CustomerId` is a shadow property in the SuitAlteration entity model. Shadow Properties allows us to decouple our entities from database schema. Thereby, we no need to include foreign keys in our Domain Model)
