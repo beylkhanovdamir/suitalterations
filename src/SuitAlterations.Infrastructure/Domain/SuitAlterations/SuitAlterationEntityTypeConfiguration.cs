@@ -19,7 +19,7 @@ namespace SuitAlterations.Infrastructure.Domain.SuitAlterations
 				.HasConversion(new ValueConverter<SuitAlterationId, Guid>(id => id.Value,
 					guid => new SuitAlterationId(guid)));
 
-			builder.Property(p => p.CustomerId)
+			builder.Property("CustomerId")
 				.HasConversion(new ValueConverter<CustomerId, Guid>(id => id.Value,
 					guid => new CustomerId(guid)))
 				.IsRequired();

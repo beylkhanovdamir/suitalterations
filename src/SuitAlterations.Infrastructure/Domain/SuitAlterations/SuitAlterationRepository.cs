@@ -21,7 +21,9 @@ namespace SuitAlterations.Infrastructure.Domain.SuitAlterations
 
 		public async Task<IReadOnlyList<SuitAlteration>> GetByCustomerIdAsync(CustomerId customerId, CancellationToken cancellationToken = default)
 		{
-			return await _context.SuitAlterations.Where(x => x.CustomerId == customerId).ToListAsync(cancellationToken);
+			var customer = await _context.Customers.Include(p=>p.SuitAlterations).SingleOrDefaultAsync(x => x.Id == customerId, cancellationToken: cancellationToken);
+
+			return customer.SuitAlterations.ToList();
 		}
 	}
 }

@@ -15,7 +15,6 @@ namespace SuitAlterations.Domain.SuitAlterations
 		public int LeftTrouserLength { get; }
 		public int RightTrouserLength { get; }
 		public SuitAlterationStatus Status { get; private set; }
-		public CustomerId CustomerId { get; }
 
 		private SuitAlteration()
 		{

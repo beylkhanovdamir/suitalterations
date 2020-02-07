@@ -81,7 +81,7 @@ namespace SuitAlterations.Application.UnitTests
 			var createdOrder = customerOrders.Single();
 			createdOrder.DomainEvents.Should().ContainSingle().And.BeEquivalentTo(new OrderPlacedDomainEvent(createdOrder.Id));
 			createdOrder.Status.Should().Be(SuitAlterationStatus.Created);
-			createdOrder.CustomerId.Should().Be(customer.Id);
+			customer.SuitAlterations.Should().Contain(createdOrder);
 
 			async Task<IReadOnlyList<SuitAlteration>> LoadCustomerOrders()
 			{
