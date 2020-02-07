@@ -46,11 +46,11 @@ Follow below instructions:
 
 ### Patterns & Design Approaches
 * Domain Driven Design approach & The Dependency Rule
-* Clean Architecture (see ![details](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html))
-* CQRS (see ![details](https://martinfowler.com/bliki/CQRS.html))
+* Clean Architecture (see [details](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html))
+* CQRS (see [details](https://martinfowler.com/bliki/CQRS.html))
 * Decorator (for the dispatching events)
-* Domain Event (see ![details](https://martinfowler.com/eaaDev/DomainEvent.html))
-* Aggregate (we have two clusters - Customer and SuitAlteration. See ![details](https://www.martinfowler.com/bliki/DDD_Aggregate.html))
+* Domain Event (see [details](https://martinfowler.com/eaaDev/DomainEvent.html))
+* Aggregate (we have two clusters - Customer and SuitAlteration. See [details](https://www.martinfowler.com/bliki/DDD_Aggregate.html))
 * Mediator (reduce dependencies between objects)
-* Unit of Work (see ![details](https://www.martinfowler.com/eaaCatalog/unitOfWork.html))
+* Unit of Work (see [details](https://www.martinfowler.com/eaaCatalog/unitOfWork.html))
 * Shadow Properties (`CustomerId` is a shadow property in the SuitAlteration entity model. Shadow Properties allows us to decouple our entities from database schema. Thereby, we no need to include foreign keys in our Domain Model)
