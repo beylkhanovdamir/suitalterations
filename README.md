@@ -40,6 +40,7 @@ Follow below instructions:
 * MediatR
 * FluentValidation
 * Autofac
+* Automapper
 * FluentAssertions
 * EF Core & Code-First Approach
 * Azure SQL server
@@ -49,6 +50,7 @@ Follow below instructions:
 * Domain Driven Design approach & The Dependency Rule
 * Clean Architecture (see [details](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html))
 * CQRS (see [details](https://martinfowler.com/bliki/CQRS.html))
+* SOLID principles 
 * Decorator (for the dispatching events)
 * Domain Event (see [details](https://martinfowler.com/eaaDev/DomainEvent.html))
 * Aggregate (we have two clusters - Customer and SuitAlteration. See [details](https://www.martinfowler.com/bliki/DDD_Aggregate.html))
