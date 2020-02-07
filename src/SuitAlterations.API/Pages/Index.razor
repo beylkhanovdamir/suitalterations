@@ -5,9 +5,10 @@
 @using global::SuitAlterations.Application.Customers.GetCustomerSuitAlterations
 @using global::SuitAlterations.Application.SuitAlterations
 @using global::SuitAlterations.Application.SuitAlterations.PlaceCustomerOrder
+@using global::SuitAlterations.Domain.SuitAlterations
 @using MediatR
 @inject IMediator Mediator;
-
+@inject INotifierService NotifierService;
 
 <div class="container">
     <div class="col-md-12 col-sm-12 col-lg-12">
@@ -118,6 +119,20 @@
     protected override async Task OnInitializedAsync()
     {
         _customers = await Mediator.Send(new GetAllCustomersQuery());
+        NotifierService.OrderPlacedNotification += OrderPlacedNotification;
+        NotifierService.OrderPaidNotification += OrderPaidNotification;
+    }
+
+    private async Task OrderPaidNotification(SuitAlterationId arg)
+    {
+    // here we can notify the sales rep what order was paid
+    }
+
+    private async Task OrderPlacedNotification(SuitAlterationId arg)
+    {
+        await LoadOrders();
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task PlaceCustomerOrder()
@@ -130,13 +145,19 @@
             _selectedCustomerId));
 
         _showNewAlterationForm = false;
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task CustomerChangeEventHandler(ChangeEventArgs e)
     {
         _selectedCustomerId = ParseGuid(e.Value);
-        _alterations = await Mediator.Send(new GetCustomerSuitAlterationsQuery(_selectedCustomerId));
+        await LoadOrders();
         _selectedSuitAlteration = null;
+    }
+
+    private async Task LoadOrders()
+    {
+        _alterations = await Mediator.Send(new GetCustomerSuitAlterationsQuery(_selectedCustomerId));
     }
 
     private void SuitAlterationChangeEventHandler(ChangeEventArgs e)

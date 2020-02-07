@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SuitAlterations.Application.Configuration;
 using SuitAlterations.Application.Configuration.Validation;
+using SuitAlterations.Application.SuitAlterations;
 using SuitAlterations.Application.SuitAlterations.PlaceCustomerOrder;
 using SuitAlterations.Domain.Messages;
 using SuitAlterations.Infrastructure.Configuration;
@@ -26,6 +27,8 @@ namespace SuitAlterations.Infrastructure
 			services.AddDbContextPool<ApplicationDbContext>(opts =>
 				opts.UseSqlServer(configuration["Database:ConnectionString"]));
 
+			services.AddScoped<INotifierService, NotifierService>();
+			
 			services.AddTransient<IValidator<PlaceCustomerOrderCommand>, PlaceCustomerOrderCommandValidator>();
 			services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPostProcessorBehavior<,>));
 			services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));

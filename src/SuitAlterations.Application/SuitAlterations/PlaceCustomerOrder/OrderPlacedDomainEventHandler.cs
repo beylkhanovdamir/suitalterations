@@ -7,14 +7,16 @@ namespace SuitAlterations.Application.SuitAlterations.PlaceCustomerOrder
 {
 	public class OrderPlacedDomainEventHandler : INotificationHandler<OrderPlacedDomainEvent>
 	{
-		public OrderPlacedDomainEventHandler()
+		private readonly INotifierService _notifierService;
+
+		public OrderPlacedDomainEventHandler(INotifierService notifierService)
 		{
+			_notifierService = notifierService;
 		}
 
-		public Task Handle(OrderPlacedDomainEvent notification, CancellationToken cancellationToken)
+		public async Task Handle(OrderPlacedDomainEvent notification, CancellationToken cancellationToken)
 		{
-			// todo: send push notification to SignalR hub
-			return Task.CompletedTask;
+			await _notifierService.OnOrderPlacedNotification(notification.SuitAlterationId);
 		}
 	}
 }
