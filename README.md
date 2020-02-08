@@ -58,3 +58,4 @@ Follow below instructions:
 * Mediator (reduce dependencies between objects)
 * Unit of Work (see [details](https://www.martinfowler.com/eaaCatalog/unitOfWork.html))
 * Shadow Properties (`CustomerId` is a shadow property in the SuitAlteration entity model. Shadow Properties allows us to decouple our entities from database schema. Thereby, we no need to include foreign keys in our Domain Model)
+* _Event Sourcing - TBD, but not implemented yet (work in progress)_
