@@ -4,7 +4,7 @@
 
 App architecture is designed in accordance with the Clean Architecture where we have the next layers, see below diagram:
 
-![diagram](https://imgur.com/Nho0ydw)
+![diagram](https://github.com/beylkhanovdamir/suitalterations/blob/master/app-architecture.png)
 
 Website allows to salesrep to enter alterations of the customer's suit and then check the status of the further work. After that when the customer paid the order to alteration, then the POS terminal should post the `OrderPaid` notification to Azure Service Bus Topic. Once our Azure Subscription service client will process this OrderPaid message, salesrep will see the changed status for this order to alteration by incoming notification of this event.
 
@@ -16,6 +16,7 @@ Screenshot of SPA
 ## Getting Started (for developers)
 
 ### Prerequisites
+Physical project structure is organised in accordance with [MS .NET project structure](https://gist.github.com/davidfowl/ed7564297c61fe9ab814)
 
 To build locally this web application you need to have installed Visual Studio Build Tools 2019 16.3 or later and the .NET Core 3.0+ SDK on your machine. 
 If you want to open this project in development purposes, then you need to install any of these IDE - Visual Studio 2019 (for Mac) / Jetbrains Rider.
@@ -39,6 +40,7 @@ Follow below instructions:
 * MediatR
 * FluentValidation
 * Autofac
+* Automapper
 * FluentAssertions
 * EF Core & Code-First Approach
 * Azure SQL server
@@ -46,11 +48,15 @@ Follow below instructions:
 
 ### Patterns & Design Approaches
 * Domain Driven Design approach & The Dependency Rule
-* Clean Architecture (see ![details](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html))
-* CQRS (see ![details](https://martinfowler.com/bliki/CQRS.html))
+* Clean Architecture (see [details](http://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html))
+* CQRS (see [details](https://martinfowler.com/bliki/CQRS.html))
+* SOLID principles 
 * Decorator (for the dispatching events)
-* Domain Event (see ![details](https://martinfowler.com/eaaDev/DomainEvent.html))
-* Aggregate (we have two clusters - Customer and SuitAlteration. See ![details](https://www.martinfowler.com/bliki/DDD_Aggregate.html))
+* Domain Event (see [details](https://martinfowler.com/eaaDev/DomainEvent.html))
+* Value Object (see [details](https://martinfowler.com/bliki/ValueObject.html)
+* Aggregate (we have two clusters - Customer and SuitAlteration. See [details](https://www.martinfowler.com/bliki/DDD_Aggregate.html))
+* Seedwork (see [details](https://www.martinfowler.com/bliki/Seedwork.html)
 * Mediator (reduce dependencies between objects)
-* Unit of Work (see ![details](https://www.martinfowler.com/eaaCatalog/unitOfWork.html))
-* Shadow Properties (`CustomerId` is a shadow property in the SuitAlteration entity model. Shadow Properties allows us to decouple our entities from database schema. Thereby, we no need to include foreign keys in our Domain Model)
+* Unit of Work (see [details](https://www.martinfowler.com/eaaCatalog/unitOfWork.html))
+* Shadow Properties (`_suitAlterations` collection is a shadow property in Customer entity model or `CustomerId`in the SuitAlteration entity model. Shadow Properties allows us to decouple our entities from database schema. Thereby, we no need to include foreign keys in our Domain Model)
+* _Event Sourcing - TBD, but not implemented yet (work in progress)_
