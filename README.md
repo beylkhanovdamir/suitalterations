@@ -11,8 +11,6 @@ Website allows to salesrep to enter alterations of the customer's suit and then 
 Screenshot of SPA
 ![Home page](https://i.imgur.com/cTRQp05.png)
 
-[Public Web App is available by this link](http://suitalterations.azurewebsites.net/)
-
 ## Getting Started (for developers)
 
 ### Prerequisites
