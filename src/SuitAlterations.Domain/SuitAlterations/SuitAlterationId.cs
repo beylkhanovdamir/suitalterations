@@ -1,5 +1,5 @@
 using System;
-using SuitAlterations.Domain.SeedWork;
+using SuitAlterations.Domain.SharedKernel;
 
 namespace SuitAlterations.Domain.SuitAlterations
 {

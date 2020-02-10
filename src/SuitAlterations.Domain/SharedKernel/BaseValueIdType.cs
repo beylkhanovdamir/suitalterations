@@ -1,6 +1,6 @@
 using System;
 
-namespace SuitAlterations.Domain.SeedWork
+namespace SuitAlterations.Domain.SharedKernel
 {
 	public abstract class BaseValueIdType : IEquatable<BaseValueIdType>
 	{
