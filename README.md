@@ -26,9 +26,9 @@ The Web App has two sections with the appsettings. The first one is ConnectionSt
 
 Follow below instructions:
 
-0. Navigate to `./src` folder 
+0. Make sure that you filled the required app settings
 
-1. Make sure that you filled the required app settings
+1. Navigate to `./src` folder 
 
 2. Build the docker image by the following command: `docker build -t suitalterations .` Make sure that command was successfully completed to start use your tagged docker image *suitalterations:latest*
 
