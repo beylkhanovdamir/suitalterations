@@ -6,7 +6,7 @@ using SuitAlterations.Domain.SeedWork;
 namespace SuitAlterations.Infrastructure.Domain
 {
 	public class GenericRepository<TEntity, TContext> : IGenericRepository<TEntity>
-		where TEntity : Entity
+		where TEntity : Entity, IAggregateRoot
 		where TContext : DbContext
 	{
 		private readonly TContext _context;
