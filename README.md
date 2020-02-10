@@ -54,6 +54,7 @@ Follow below instructions:
 * Decorator (for the dispatching events)
 * Domain Event (see [details](https://martinfowler.com/eaaDev/DomainEvent.html))
 * Value Object (see [details](https://martinfowler.com/bliki/ValueObject.html)
+* Shared Kernel (In our case we use common BaseValueIdType as ValueObject type for domain models which identities of them should be immutable and globally unique like CustomerId, SuitAlerationId)
 * Aggregate (we have two clusters - Customer and SuitAlteration. See [details](https://www.martinfowler.com/bliki/DDD_Aggregate.html))
 * Seedwork (see [details](https://www.martinfowler.com/bliki/Seedwork.html)
 * Mediator (reduce dependencies between objects)
