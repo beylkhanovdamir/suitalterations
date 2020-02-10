@@ -26,11 +26,13 @@ The Web App has two sections with the appsettings. The first one is ConnectionSt
 
 Follow below instructions:
 
-0. Build the docker image by the following command: `docker build -t suitalterations .` Make sure that command was successfully completed to start use your tagged docker image *suitalterations:latest*
+0. Navigate to `./src` folder 
 
-1. Run the `docker run --rm -it --name suitalterations -p 5555:80 suitalterations:latest` command
+1. Build the docker image by the following command: `docker build -t suitalterations .` Make sure that command was successfully completed to start use your tagged docker image *suitalterations:latest*
 
-2. Open the URL http://localhost:5555/ in your browser.
+2. Run the `docker run --rm -it --name suitalterations -p 5555:80 suitalterations:latest` command
+
+3. Open the URL http://localhost:5555/ in your browser.
 
 ### Technologies & Frameworks
 * ASP.NET Core 3.0
