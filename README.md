@@ -28,11 +28,13 @@ Follow below instructions:
 
 0. Navigate to `./src` folder 
 
-1. Build the docker image by the following command: `docker build -t suitalterations .` Make sure that command was successfully completed to start use your tagged docker image *suitalterations:latest*
+1. Make sure that you filled the required app settings
 
-2. Run the `docker run --rm -it --name suitalterations -p 5555:80 suitalterations:latest` command
+2. Build the docker image by the following command: `docker build -t suitalterations .` Make sure that command was successfully completed to start use your tagged docker image *suitalterations:latest*
 
-3. Open the URL http://localhost:5555/ in your browser.
+3. Run the `docker run --rm -it --name suitalterations -p 5555:80 suitalterations:latest` command
+
+4. Open the URL http://localhost:5555/ in your browser.
 
 ### Technologies & Frameworks
 * ASP.NET Core 3.0
