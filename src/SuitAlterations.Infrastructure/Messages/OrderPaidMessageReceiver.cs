@@ -64,10 +64,10 @@ namespace SuitAlterations.Infrastructure.Messages
 
 		private async Task HandleMessage(Message message, CancellationToken cancellationToken)
 		{
-			var orderPaidNotification =
+			var orderPaidMessage =
 				JsonConvert.DeserializeObject<OrderPaidMessage>(Encoding.UTF8.GetString(message.Body));
 
-			await _mediator.Send(new MarkOrderAsPaidCommand(orderPaidNotification.SuitAlterationId), cancellationToken);
+			await _mediator.Send(new MarkOrderAsPaidCommand(orderPaidMessage.SuitAlterationId), cancellationToken);
 
 			await _subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
 		}

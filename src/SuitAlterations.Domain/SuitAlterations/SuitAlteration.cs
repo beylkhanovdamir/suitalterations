@@ -1,12 +1,11 @@
 using System;
-using SuitAlterations.Domain.Customers;
 using SuitAlterations.Domain.Customers.Events;
 using SuitAlterations.Domain.SeedWork;
 
 namespace SuitAlterations.Domain.SuitAlterations
 {
 	/// <summary>
-	/// Suit Alteration Aggregate root
+	///     Suit Alteration Aggregate root
 	/// </summary>
 	public class SuitAlteration : Entity, IAggregateRoot
 	{
