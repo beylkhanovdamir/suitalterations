@@ -26,7 +26,7 @@ The Web App has two sections with the appsettings. The first one is ConnectionSt
 
 Follow below instructions:
 
-0. Make sure that you filled the required app settings
+0. Make sure that you filled the required app settings (Look into the `appsettings.json` file)
 
 1. Navigate to `./src` folder 
 
