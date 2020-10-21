@@ -7,6 +7,9 @@ namespace SuitAlterations.Domain.SeedWork
 	{
 		private List<IDomainEvent> _domainEvents;
 
+		/// <summary>
+		/// Based on a Better Domain Events pattern
+		/// </summary>
 		public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
 
 		protected void AddDomainEvent(IDomainEvent domainEvent)

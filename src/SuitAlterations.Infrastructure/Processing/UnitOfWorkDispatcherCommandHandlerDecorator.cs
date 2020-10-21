@@ -5,12 +5,12 @@ using SuitAlterations.Domain.SeedWork;
 
 namespace SuitAlterations.Infrastructure.Processing
 {
-	public class DomainEventsDispatcherCommandHandlerDecorator<T> : IRequestHandler<T, Unit> where T:IRequest
+	public class UnitOfWorkDispatcherCommandHandlerDecorator<T> : IRequestHandler<T, Unit> where T:IRequest
 	{
 		private readonly IRequestHandler<T, Unit> _decoratedCommandHandler;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public DomainEventsDispatcherCommandHandlerDecorator(
+		public UnitOfWorkDispatcherCommandHandlerDecorator(
 			IRequestHandler<T, Unit> decoratedCommandHandler, 
 			IUnitOfWork unitOfWork)
 		{

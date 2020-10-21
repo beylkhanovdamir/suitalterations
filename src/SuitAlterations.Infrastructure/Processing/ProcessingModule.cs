@@ -13,7 +13,7 @@ namespace SuitAlterations.Infrastructure.Processing
 				.InstancePerLifetimeScope();
 
 			builder.RegisterGenericDecorator(
-				typeof(DomainEventsDispatcherCommandHandlerDecorator<>),
+				typeof(UnitOfWorkDispatcherCommandHandlerDecorator<>),
 				typeof(IRequestHandler<,>));
 			
 			builder.RegisterGenericDecorator(
